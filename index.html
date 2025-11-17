@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Preview</title>
+    <style>
+        /* Div principale */
+        #image {
+            width: 400px;
+            height: 300px;
+            border: 1px solid black;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Miniatures */
+        .thumbnail {
+            width: 100px;
+            cursor: pointer;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Div principale -->
+<div id="image">Hover over an image below to display here</div>
+
+<!-- Images miniatures avec URL en ligne -->
+<img src="https://via.placeholder.com/150/FF0000/FFFFFF?text=Image1" alt="Image 1" class="thumbnail"
+     onmouseover="upDate(this)" onmouseout="unDo()">
+<img src="https://via.placeholder.com/150/00FF00/FFFFFF?text=Image2" alt="Image 2" class="thumbnail"
+     onmouseover="upDate(this)" onmouseout="unDo()">
+<img src="https://via.placeholder.com/150/0000FF/FFFFFF?text=Image3" alt="Image 3" class="thumbnail"
+     onmouseover="upDate(this)" onmouseout="unDo()">
+
+<!-- JavaScript -->
+<script>
+    // Fonction qui change le texte et l'image de fond
+    function upDate(previewPic) {
+        console.log("upDate déclenchée !");
+        console.log("Image survolée :", previewPic);
+        console.log("src :", previewPic.src, "alt :", previewPic.alt);
+
+        const imageDiv = document.getElementById("image");
+        imageDiv.innerHTML = previewPic.alt; // Change le texte
+        imageDiv.style.backgroundImage = `url('${previewPic.src}')`; // Change le fond
+    }
+
+    // Fonction qui remet l'état initial
+    function unDo() {
+        const imageDiv = document.getElementById("image");
+        imageDiv.innerHTML = "Hover over an image below to display here";
+        imageDiv.style.backgroundImage = "url('')";
+    }
+</script>
+
+</body>
+</html>
