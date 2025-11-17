@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Image Preview</title>
+    <title>Galerie Interactive</title>
     <style>
-        /* Div principale */
+        /* Div principale pour afficher l'image et le texte */
         #image {
-            width: 400px;
-            height: 300px;
+            width: 500px;
+            height: 350px;
             border: 1px solid black;
             background-size: cover;
             display: flex;
@@ -15,6 +15,7 @@
             justify-content: center;
             font-weight: bold;
             text-align: center;
+            margin-bottom: 10px;
         }
 
         /* Miniatures */
@@ -22,41 +23,64 @@
             width: 100px;
             cursor: pointer;
             margin: 5px;
+            outline: none; /* Supprime le contour par défaut */
+        }
+
+        .thumbnail:focus {
+            outline: 3px solid #00f; /* Met en évidence l'image focus */
         }
     </style>
 </head>
 <body>
 
+<h1>Galerie Interactive</h1>
+
 <!-- Div principale -->
-<div id="image">Hover over an image below to display here</div>
+<div id="image">Survolez ou sélectionnez une image pour l'afficher ici</div>
 
-<!-- Images miniatures avec URL en ligne -->
-<img src="https://via.placeholder.com/150/FF0000/FFFFFF?text=Image1" alt="Image 1" class="thumbnail"
-     onmouseover="upDate(this)" onmouseout="unDo()">
-<img src="https://via.placeholder.com/150/00FF00/FFFFFF?text=Image2" alt="Image 2" class="thumbnail"
-     onmouseover="upDate(this)" onmouseout="unDo()">
-<img src="https://via.placeholder.com/150/0000FF/FFFFFF?text=Image3" alt="Image 3" class="thumbnail"
-     onmouseover="upDate(this)" onmouseout="unDo()">
+<!-- Miniatures -->
+<img src="https://via.placeholder.com/150/FF0000/FFFFFF?text=Image1" alt="Image 1" class="thumbnail">
+<img src="https://via.placeholder.com/150/00FF00/FFFFFF?text=Image2" alt="Image 2" class="thumbnail">
+<img src="https://via.placeholder.com/150/0000FF/FFFFFF?text=Image3" alt="Image 3" class="thumbnail">
+<img src="https://via.placeholder.com/150/FFFF00/FFFFFF?text=Image4" alt="Image 4" class="thumbnail">
+<img src="https://via.placeholder.com/150/FF00FF/FFFFFF?text=Image5" alt="Image 5" class="thumbnail">
+<img src="https://via.placeholder.com/150/00FFFF/FFFFFF?text=Image6" alt="Image 6" class="thumbnail">
 
-<!-- JavaScript -->
 <script>
-    // Fonction qui change le texte et l'image de fond
+    // Fonction pour mettre à jour le div principal
     function upDate(previewPic) {
-        console.log("upDate déclenchée !");
-        console.log("Image survolée :", previewPic);
-        console.log("src :", previewPic.src, "alt :", previewPic.alt);
-
+        console.log("upDate déclenchée :", previewPic.alt);
         const imageDiv = document.getElementById("image");
-        imageDiv.innerHTML = previewPic.alt; // Change le texte
-        imageDiv.style.backgroundImage = `url('${previewPic.src}')`; // Change le fond
+        imageDiv.innerHTML = previewPic.alt;
+        imageDiv.style.backgroundImage = `url('${previewPic.src}')`;
     }
 
-    // Fonction qui remet l'état initial
+    // Fonction pour remettre le div à l'état initial
     function unDo() {
         const imageDiv = document.getElementById("image");
-        imageDiv.innerHTML = "Hover over an image below to display here";
+        imageDiv.innerHTML = "Survolez ou sélectionnez une image pour l'afficher ici";
         imageDiv.style.backgroundImage = "url('')";
     }
+
+    // Ajouter les événements après le chargement de la page
+    window.onload = function() {
+        const thumbnails = document.querySelectorAll('.thumbnail');
+
+        for (let i = 0; i < thumbnails.length; i++) {
+            // Rendre focusable au clavier
+            thumbnails[i].setAttribute('tabindex', 0);
+
+            // Événements souris
+            thumbnails[i].onmouseover = function() { upDate(this); };
+            thumbnails[i].onmouseleave = function() { unDo(); };
+
+            // Événements clavier
+            thumbnails[i].onfocus = function() { upDate(this); };
+            thumbnails[i].onblur = function() { unDo(); };
+        }
+
+        console.log("Événements ajoutés et page chargée");
+    };
 </script>
 
 </body>
